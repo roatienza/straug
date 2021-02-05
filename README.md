@@ -2,7 +2,7 @@
 
 Many image corruption algorithms are in these repo. The image corruptions (eg blur, noise, camera effects) are based on the work of [Hendrycks](https://github.com/hendrycks/robustness) on ImageNet-C.
 
-## Run all corruption on a given image
+## Run all corruptions on a given image
 
 `python3 test.py --image=<target image>`
 
