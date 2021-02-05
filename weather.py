@@ -13,7 +13,7 @@ class Fog:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -44,7 +44,7 @@ class Frost:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -88,7 +88,7 @@ class Snow:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -140,7 +140,7 @@ class Rain:
         pass
 
     def __call__(self, img, max_width=3, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         img = img.copy()
@@ -170,7 +170,7 @@ class Shadow:
         pass
 
     def __call__(self, img, max_width=3, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         #img = img.copy()

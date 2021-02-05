@@ -8,7 +8,7 @@ class Shrink:
         self.tps = cv2.createThinPlateSplineShapeTransformer()
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -66,7 +66,7 @@ class Stretch:
         self.tps = cv2.createThinPlateSplineShapeTransformer()
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -131,7 +131,7 @@ class Distort:
         self.tps = cv2.createThinPlateSplineShapeTransformer()
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -207,7 +207,7 @@ class Curve:
         self.side = square_side
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -275,7 +275,7 @@ class Rotate:
         self.side = square_side
 
     def __call__(self, img, iscurve=False, rotate_angle=30., prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
@@ -297,7 +297,7 @@ class Perspective:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if np.random.uniform(0,1) < prob:
             return img
 
         W, H = img.size
