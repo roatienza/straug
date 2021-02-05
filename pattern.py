@@ -3,10 +3,6 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageDraw
 
-'''
-    PIL resize (W,H)
-    Torch resize is (H,W)
-'''
 class VGrid:
     def __init__(self):
         pass

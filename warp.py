@@ -3,10 +3,6 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps
 
-'''
-    PIL resize (W,H)
-    Torch resize is (H,W)
-'''
 class Shrink:
     def __init__(self):
         self.tps = cv2.createThinPlateSplineShapeTransformer()

@@ -3,9 +3,6 @@ import numpy as np
 import skimage as sk
 from PIL import Image
 
-'''
-    PIL resize (W,H)
-'''
 class GaussianNoise:
     def __init__(self):
         pass
