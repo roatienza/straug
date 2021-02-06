@@ -8,7 +8,7 @@ class VGrid:
         pass
 
     def __call__(self, img, copy=True, max_width=3, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         if copy:
@@ -29,7 +29,7 @@ class HGrid:
         pass
 
     def __call__(self, img, copy=True, max_width=3, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         if copy:
@@ -50,7 +50,7 @@ class Grid:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         img = VGrid()(img, copy=True, max_width=2)
@@ -62,7 +62,7 @@ class RectGrid:
         pass
 
     def __call__(self, img, isellipse=False, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         img = img.copy()
@@ -93,7 +93,7 @@ class EllipseGrid:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         img = RectGrid()(img, isellipse=True, prob=prob)

@@ -16,7 +16,7 @@ class Contrast:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         #c = [0.4, .3, .2, .1, .05]
@@ -35,7 +35,7 @@ class Brightness:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         #W, H = img.size
@@ -78,7 +78,7 @@ class JpegCompression:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         #c = [25, 18, 15, 10, 7]
@@ -95,7 +95,7 @@ class Pixelate:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size

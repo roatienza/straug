@@ -18,7 +18,7 @@ class GaussianBlur:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -31,7 +31,7 @@ class DefocusBlur:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         n_channels = len(img.getbands())
@@ -70,7 +70,7 @@ class MotionBlur:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         n_channels = len(img.getbands())
@@ -100,7 +100,7 @@ class GlassBlur:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -129,7 +129,7 @@ class ZoomBlur:
         pass
 
     def __call__(self, img, prob=1.):
-        if np.random.uniform(0,1) < prob:
+        if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size
