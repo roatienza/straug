@@ -3,10 +3,7 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps
 import torchvision.transforms as transforms
-from wand.image import Image as WandImage
-from scipy.ndimage import zoom as scizoom
 from skimage.filters import gaussian
-from wand.api import library as wandlibrary
 from io import BytesIO
 
 from ops import MotionImage, clipped_zoom, disk, plasma_fractal

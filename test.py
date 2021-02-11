@@ -1,6 +1,5 @@
 
 import os
-import cv2
 from warp import Curve, Rotate, Perspective, Distort, Stretch, Shrink
 from pattern import VGrid, HGrid, Grid, RectGrid, EllipseGrid
 from noise import GaussianNoise, ShotNoise, ImpulseNoise, SpeckleNoise
@@ -10,7 +9,6 @@ from weather import Fog, Snow, Frost, Rain, Shadow
 
 from PIL import Image
 import PIL.ImageOps
-import numpy as np
 import argparse
 
 

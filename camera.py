@@ -1,5 +1,4 @@
 
-import cv2
 import numpy as np
 import skimage as sk
 from PIL import Image, ImageOps
