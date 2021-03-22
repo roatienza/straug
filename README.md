@@ -1,7 +1,11 @@
 # STRAug
 (Pronounced as "_strog_")
 
-Scene Text Recognition (STR) requires data augmentation functions that are different from object recognition. STRAug offers 36 data augmentation functions that are sorted into 8 groups:
+Scene Text Recognition (STR) requires data augmentation functions that are different from object recognition. STRAug is data augmentation designed for STR. It offers 36 data augmentation functions that are sorted into 8 groups. Given a source image:
+
+![](/examples/source/delivery.png) 
+
+it can be transformed as follows:
 
 1) `warp.py` - to generate `Curve`, `Distort`, `Stretch` (or Elastic) deformations
 
@@ -58,7 +62,9 @@ Scene Text Recognition (STR) requires data augmentation functions that are diffe
 ------------ | ------------- | ------------- 
 ![](/examples/process/AutoContrast-2.png) | ![](/examples/process/Sharpness-2.png) | ![](/examples/process/Color-2.png) 
 
-## Run all corruptions on a given image
+## How to use
+
+Test it on a sample image:
 
 `python3 test.py --image=<target image>`
 
@@ -68,8 +74,7 @@ For example:
 
 The corrupted images are in `results` directory.
 
-
-## References:
+## Reference
   - Image corruptions (eg blur, noise, camera effects, fog, frost, etc) are based on the work of [Hendrycks et al.](https://github.com/hendrycks/robustness)
 
 
