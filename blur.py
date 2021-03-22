@@ -1,41 +1,65 @@
+"""Common blur operations. 
+Blur may be caused by unstable camera sensor, dirty lens, relative motion 
+between the camera and the subject, insufficient illumination, out of focus 
+settings, imaging while zooming, subject behind a frosted glass window, 
+or shallow depth of field. The Blur group includes: 
+1) GaussianBlur, 
+2) DefocusBlur, 
+3) MotionBlur, 
+4) GlassBlur 
+and 
+5) ZoomBlur.
+
+"""
 
 import cv2
 import numpy as np
-from PIL import Image, ImageOps
 import torchvision.transforms as transforms
+
+from PIL import Image, ImageOps
 from skimage.filters import gaussian
 from io import BytesIO
-
 from ops import MotionImage, clipped_zoom, disk, plasma_fractal
 '''
-    Note: PIL image size (W,H)
+    PIL resize (W,H)
 '''
 class GaussianBlur:
     def __init__(self):
         pass
 
-    def __call__(self, img, prob=1.):
+    def __call__(self, img, mag=-1, prob=1.):
         if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size
-        kernel = [(31,31)]
-        index = np.random.randint(0, len(kernel))
-        return transforms.GaussianBlur(kernel[index])(img)
+        #kernel = [(31,31)] prev 1 level only
+        kernel = (31, 31)
+        sigmas = [.5, 1, 2]
+        if mag<0 or mag>=len(kernel):
+            index = np.random.randint(0, len(sigmas))
+        else:
+            index = mag
+
+        sigma = sigmas[index]
+        return transforms.GaussianBlur(kernel_size=kernel, sigma=sigma)(img)
+
 
 class DefocusBlur:
     def __init__(self):
         pass
 
-    def __call__(self, img, prob=1.):
+    def __call__(self, img, mag=-1, prob=1.):
         if np.random.uniform(0,1) > prob:
             return img
 
         n_channels = len(img.getbands())
         isgray = n_channels == 1
         #c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)]
-        c = [(3, 0.1), (4, 0.5)] #, (6, 0.5)]
-        index = np.random.randint(0, len(c))
+        c = [(2, 0.1), (3, 0.1), (4, 0.1)] #, (6, 0.5)] #prev 2 levels only
+        if mag<0 or mag>=len(c):
+            index = np.random.randint(0, len(c))
+        else:
+            index = mag
         c = c[index]
 
         img = np.array(img) / 255.
@@ -66,15 +90,18 @@ class MotionBlur:
     def __init__(self):
         pass
 
-    def __call__(self, img, prob=1.):
+    def __call__(self, img, mag=-1, prob=1.):
         if np.random.uniform(0,1) > prob:
             return img
 
         n_channels = len(img.getbands())
         isgray = n_channels == 1
         #c = [(10, 3), (15, 5), (15, 8), (15, 12), (20, 15)]
-        c = [(10, 3), (15, 5), (15, 8)]
-        index = np.random.randint(0, len(c))
+        c = [(10, 3), (12, 4), (14, 5)]
+        if mag<0 or mag>=len(c):
+            index = np.random.randint(0, len(c))
+        else:
+            index = mag
         c = c[index]
 
         output = BytesIO()
@@ -96,14 +123,18 @@ class GlassBlur:
     def __init__(self):
         pass
 
-    def __call__(self, img, prob=1.):
+    def __call__(self, img, mag=-1, prob=1.):
         if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size
         #c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2), (1.5, 4, 2)][severity - 1]
-        c = [(0.7, 1, 2), (0.9, 2, 1)] # , (1, 2, 3)]
-        index = np.random.randint(0, len(c))
+        c = [(0.7, 1, 2), (0.75, 1, 2), (0.8, 1, 2)] #, (1, 2, 3)] #prev 2 levels only
+        if mag<0 or mag>=len(c):
+            index = np.random.randint(0, len(c))
+        else:
+            index = mag
+
         c = c[index]
 
         img = np.uint8(gaussian(np.array(img) / 255., sigma=c[0], multichannel=True) * 255)
@@ -125,15 +156,19 @@ class ZoomBlur:
     def __init__(self):
         pass
 
-    def __call__(self, img, prob=1.):
+    def __call__(self, img, mag=-1, prob=1.):
         if np.random.uniform(0,1) > prob:
             return img
 
         W, H = img.size
-        c = [np.arange(1.05, 1.11, 1.16),
-             np.arange(1.05, 1.16, 1.21),
-             np.arange(1.05, 1.21, 1.26)]
-        index = np.random.randint(0, len(c))
+        c = [np.arange(1, 1.11, .01),
+             np.arange(1, 1.16, .01),
+             np.arange(1, 1.21, .02)]
+        if mag<0 or mag>=len(c):
+            index = np.random.randint(0, len(c))
+        else:
+            index = mag
+
         c = c[index]
 
         n_channels = len(img.getbands())
