@@ -7,16 +7,14 @@ from the image while ensuring that text symbols are still readable.
 4) RectGrid 
 and 
 5) EllipseGrid
+
+Copyright 2021 Rowel Atienza
 """
 
 import cv2
 import numpy as np
 from PIL import ImageDraw
 
-'''
-    PIL resize is (W,H)
-    Torch resize is (H,W)
-'''
 class VGrid:
     def __init__(self):
         pass

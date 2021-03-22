@@ -6,8 +6,10 @@ Scene text may be captured under different weather conditions:
 4) Rain 
 and 
 5) Shadow.
-"""
 
+Fog, Snow, Frost Reference: https://github.com/hendrycks/robustness
+Hacked together for STR/Copyright 2021 by Rowel Atienza
+"""
 
 import cv2
 import numpy as np

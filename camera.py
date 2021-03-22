@@ -11,6 +11,8 @@ Brightness is directly affected by scene luminance.
 JpegCompression is the side effect of image compression. 
 Pixelate is exhibited by increasing the resolution of an image.
 
+Reference: https://github.com/hendrycks/robustness
+Hacked together for STR by: Rowel Atienza
 """
 
 

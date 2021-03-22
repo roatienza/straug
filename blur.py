@@ -10,6 +10,8 @@ or shallow depth of field. The Blur group includes:
 and 
 5) ZoomBlur.
 
+Reference: https://github.com/hendrycks/robustness
+Hacked together for STR by: Rowel Atienza
 """
 
 import cv2

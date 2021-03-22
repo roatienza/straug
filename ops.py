@@ -1,3 +1,10 @@
+"""
+Common image operations
+
+Reference: https://github.com/hendrycks/robustness
+Hacked together for STR by: Rowel Atienza
+"""
+
 
 import cv2
 import numpy as np
