@@ -54,6 +54,10 @@ Scene Text Recognition (STR) requires data augmentation functions that are diffe
 ------------ | ------------- | ------------- | ------------- 
 ![](/examples/process/Posterize-2.png) | ![](/examples/process/Solarize-2.png) | ![](/examples/process/Invert-2.png) | ![](/examples/process/Equalize-2.png)
 
+`AutoContrast` | `Sharpness` | `Color`
+------------ | ------------- | ------------- 
+![](/examples/process/AutoContrast-2.png) | ![](/examples/process/Sharpness-2.png) | ![](/examples/process/Color-2.png) 
+
 ## Run all corruptions on a given image
 
 `python3 test.py --image=<target image>`
