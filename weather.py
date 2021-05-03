@@ -79,10 +79,15 @@ class Frost:
                     resource_filename(__name__, 'frost/frost6.jpg')]
         index = self.rng.integers(0, len(filename))
         filename = filename[index]
-        frost = cv2.imread(filename)
-        #randomly crop and convert to rgb
+        # Some images have transparency. Remove alpha channel.
+        frost = Image.open(filename).convert('RGB')
+        # Make sure that the frost image is at least as big as the input image
+        target_size = max(W, frost.size[0]) + 1, max(H, frost.size[1]) + 1
+        frost = np.asarray(frost.resize(target_size))
+
+        # randomly crop
         x_start, y_start = self.rng.integers(0, frost.shape[0] - H), self.rng.integers(0, frost.shape[1] - W)
-        frost = frost[x_start:x_start + H, y_start:y_start + W][..., [2, 1, 0]]
+        frost = frost[x_start:x_start + H, y_start:y_start + W]
 
         n_channels = len(img.getbands())
         isgray = n_channels == 1
