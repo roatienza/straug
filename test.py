@@ -22,8 +22,8 @@ if __name__ == '__main__':
     parser.add_argument('--image', default="images/delivery.png", help='Load image file')
     parser.add_argument('--results', default="results", help='Load image file')
     parser.add_argument('--gray', action='store_true', help='Convert to grayscale 1st')
-    parser.add_argument('--width', default=100, help='Default image width')
-    parser.add_argument('--height', default=32, help='Default image height')
+    parser.add_argument('--width', default=100, type=int, help='Default image width')
+    parser.add_argument('--height', default=32, type=int, help='Default image height')
     opt = parser.parse_args()
     os.makedirs(opt.results, exist_ok=True)
 
