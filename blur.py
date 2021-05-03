@@ -37,7 +37,7 @@ class GaussianBlur:
         #kernel = [(31,31)] prev 1 level only
         kernel = (31, 31)
         sigmas = [.5, 1, 2]
-        if mag<0 or mag>=len(kernel):
+        if mag<0 or mag>=len(sigmas):
             index = np.random.randint(0, len(sigmas))
         else:
             index = mag
