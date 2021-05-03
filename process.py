@@ -81,7 +81,7 @@ class Equalize:
         if self.rng.uniform(0,1) > prob:
             return img
 
-        mg = PIL.ImageOps.equalize(img)
+        img = PIL.ImageOps.equalize(img)
 
         return img
 
@@ -94,7 +94,7 @@ class AutoContrast:
         if self.rng.uniform(0,1) > prob:
             return img
 
-        mg = PIL.ImageOps.autocontrast(img)
+        img = PIL.ImageOps.autocontrast(img)
 
         return img
 
