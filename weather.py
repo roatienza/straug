@@ -40,7 +40,9 @@ class Fog:
 
         img = np.array(img) / 255.
         max_val = img.max()
-        fog = c[0] * plasma_fractal(wibbledecay=c[1])[:H, :W][..., np.newaxis]
+        # Make sure fog image is at least twice the size of the input image
+        max_size = 2 ** math.ceil(math.log2(max(W, H)) + 1)
+        fog = c[0] * plasma_fractal(mapsize=max_size, wibbledecay=c[1])[:H, :W][..., np.newaxis]
         #x += c[0] * plasma_fractal(wibbledecay=c[1])[:224, :224][..., np.newaxis]
         #return np.clip(x * max_val / (max_val + c[0]), 0, 1) * 255
         if isgray:
