@@ -188,8 +188,9 @@ class Rain:
         fillcolor = 200 if isgray else (200,200,200)
 
         draw = ImageDraw.Draw(img)
+        max_length = min(W, H, 10)
         for i in range(1, n_rains):
-            length = self.rng.integers(5, 10)
+            length = self.rng.integers(5, max_length)
             x1 = self.rng.integers(0, W-length)
             y1 = self.rng.integers(0, H-length)
             x2 = x1 + length*math.sin(slant*math.pi/180.)
