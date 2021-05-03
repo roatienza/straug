@@ -28,17 +28,17 @@ from skimage import color
     PIL image is RGB
 '''
 class Contrast:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         #c = [0.4, .3, .2, .1, .05]
         c = [0.4, .3, .2]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -50,18 +50,18 @@ class Contrast:
 
 
 class Brightness:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         #W, H = img.size
         #c = [.1, .2, .3, .4, .5]
         c = [.1, .2, .3]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -96,17 +96,17 @@ class Brightness:
 
 
 class JpegCompression:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         #c = [25, 18, 15, 10, 7]
         c = [25, 18, 15]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -116,18 +116,18 @@ class JpegCompression:
 
 
 class Pixelate:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
         #c = [0.6, 0.5, 0.4, 0.3, 0.25]
         c = [0.6, 0.5, 0.4]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]

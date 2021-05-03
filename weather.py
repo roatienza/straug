@@ -20,17 +20,17 @@ from io import BytesIO
 from ops import plasma_fractal, MotionImage
 
 class Fog:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
         c = [(1.5, 2), (2., 2), (2.5, 1.7)]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -42,7 +42,7 @@ class Fog:
         max_val = img.max()
         # Make sure fog image is at least twice the size of the input image
         max_size = 2 ** math.ceil(math.log2(max(W, H)) + 1)
-        fog = c[0] * plasma_fractal(mapsize=max_size, wibbledecay=c[1])[:H, :W][..., np.newaxis]
+        fog = c[0] * plasma_fractal(mapsize=max_size, wibbledecay=c[1], rng=self.rng)[:H, :W][..., np.newaxis]
         #x += c[0] * plasma_fractal(wibbledecay=c[1])[:224, :224][..., np.newaxis]
         #return np.clip(x * max_val / (max_val + c[0]), 0, 1) * 255
         if isgray:
@@ -56,17 +56,17 @@ class Fog:
 
 
 class Frost:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
         c = [(1, 0.4), (0.8, 0.6), (0.7, 0.7)]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -77,11 +77,11 @@ class Frost:
                     resource_filename(__name__, 'frost/frost4.jpg'),
                     resource_filename(__name__, 'frost/frost5.jpg'),
                     resource_filename(__name__, 'frost/frost6.jpg')]
-        index = np.random.randint(0, len(filename))
+        index = self.rng.integers(0, len(filename))
         filename = filename[index]
         frost = cv2.imread(filename)
         #randomly crop and convert to rgb
-        x_start, y_start = np.random.randint(0, frost.shape[0] - H), np.random.randint(0, frost.shape[1] - W)
+        x_start, y_start = self.rng.integers(0, frost.shape[0] - H), self.rng.integers(0, frost.shape[1] - W)
         frost = frost[x_start:x_start + H, y_start:y_start + W][..., [2, 1, 0]]
 
         n_channels = len(img.getbands())
@@ -103,11 +103,11 @@ class Frost:
         return img
 
 class Snow:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -115,7 +115,7 @@ class Snow:
              (0.2, 0.3, 2, 0.5, 12, 4, 0.7),
              (0.55, 0.3, 4, 0.9, 12, 8, 0.7)]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -128,7 +128,7 @@ class Snow:
             img = np.expand_dims(img, axis=2)
             img = np.repeat(img, 3, axis=2)
 
-        snow_layer = np.random.normal(size=img.shape[:2], loc=c[0], scale=c[1])  # [:2] for monochrome
+        snow_layer = self.rng.normal(size=img.shape[:2], loc=c[0], scale=c[1])  # [:2] for monochrome
 
         #snow_layer = clipped_zoom(snow_layer[..., np.newaxis], c[2])
         snow_layer[snow_layer < c[3]] = 0
@@ -138,7 +138,7 @@ class Snow:
         snow_layer.save(output, format='PNG')
         snow_layer = MotionImage(blob=output.getvalue())
 
-        snow_layer.motion_blur(radius=c[4], sigma=c[5], angle=np.random.uniform(-135, -45))
+        snow_layer.motion_blur(radius=c[4], sigma=c[5], angle=self.rng.uniform(-135, -45))
 
         snow_layer = cv2.imdecode(np.fromstring(snow_layer.make_blob(), np.uint8),
                                   cv2.IMREAD_UNCHANGED) / 255.
@@ -158,18 +158,18 @@ class Snow:
         return img
 
 class Rain:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         img = img.copy()
         W, H = img.size
         n_channels = len(img.getbands())
         isgray = n_channels == 1
-        line_width = np.random.randint(1, 2)
+        line_width = self.rng.integers(1, 2)
 
         c =[50, 70, 90]
         if mag<0 or mag>=len(c):
@@ -178,15 +178,15 @@ class Rain:
             index = mag
         c = c[index]
 
-        n_rains = np.random.randint(c, c+20)
-        slant = np.random.randint(-60, 60)
+        n_rains = self.rng.integers(c, c+20)
+        slant = self.rng.integers(-60, 60)
         fillcolor = 200 if isgray else (200,200,200)
 
         draw = ImageDraw.Draw(img)
         for i in range(1, n_rains):
-            length = np.random.randint(5, 10)
-            x1 = np.random.randint(0, W-length)
-            y1 = np.random.randint(0, H-length)
+            length = self.rng.integers(5, 10)
+            x1 = self.rng.integers(0, W-length)
+            y1 = self.rng.integers(0, H-length)
             x2 = x1 + length*math.sin(slant*math.pi/180.)
             y2 = y1 + length*math.cos(slant*math.pi/180.)
             x2 = int(x2)
@@ -196,11 +196,11 @@ class Rain:
         return img
 
 class Shadow:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         #img = img.copy()
@@ -218,17 +218,17 @@ class Shadow:
         img = img.convert('RGBA')
         overlay = Image.new('RGBA', img.size, (255,255,255,0))
         draw = ImageDraw.Draw(overlay) 
-        transparency = np.random.randint(c, c+32)
-        x1 = np.random.randint(0, W//2)
+        transparency = self.rng.integers(c, c+32)
+        x1 = self.rng.integers(0, W//2)
         y1 = 0
 
-        x2 = np.random.randint(W//2, W)
+        x2 = self.rng.integers(W//2, W)
         y2 = 0
 
-        x3 = np.random.randint(W//2, W)
+        x3 = self.rng.integers(W//2, W)
         y3 = H - 1
 
-        x4 = np.random.randint(0, W//2)
+        x4 = self.rng.integers(0, W//2)
         y4 = H - 1
 
         draw.polygon([(x1,y1), (x2,y2), (x3,y3), (x4,y4)], fill=(0,0,0,transparency))

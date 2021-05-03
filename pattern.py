@@ -16,11 +16,11 @@ import numpy as np
 from PIL import ImageDraw
 
 class VGrid:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, copy=True, max_width=4, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         if copy:
@@ -28,8 +28,8 @@ class VGrid:
         W, H = img.size
 
         if mag<0 or mag>max_width:
-            line_width = np.random.randint(1, max_width)
-            image_stripe = np.random.randint(1, max_width)
+            line_width = self.rng.integers(1, max_width)
+            image_stripe = self.rng.integers(1, max_width)
         else:
             line_width = 1
             image_stripe = 3 - mag
@@ -43,19 +43,19 @@ class VGrid:
         return img
 
 class HGrid:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, copy=True, max_width=4, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         if copy:
             img = img.copy()
         W, H = img.size
         if mag<0 or mag>max_width:
-            line_width = np.random.randint(1, max_width)
-            image_stripe = np.random.randint(1, max_width)
+            line_width = self.rng.integers(1, max_width)
+            image_stripe = self.rng.integers(1, max_width)
         else:
             line_width = 1
             image_stripe = 3 - mag
@@ -69,11 +69,11 @@ class HGrid:
         return img
 
 class Grid:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         img = VGrid()(img, copy=True, mag=mag)
@@ -81,17 +81,17 @@ class Grid:
         return img
 
 class RectGrid:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, isellipse=False, mag=-1,  prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         img = img.copy()
         W, H = img.size
         line_width = 1 
-        image_stripe = 3 - mag #np.random.randint(2, 6)
+        image_stripe = 3 - mag #self.rng.integers(2, 6)
         offset = 4 if isellipse else 1
         n_lines = ((H//2) // (line_width + image_stripe)) + offset
         draw = ImageDraw.Draw(img)
@@ -112,11 +112,11 @@ class RectGrid:
         return img
 
 class EllipseGrid:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         img = RectGrid()(img, isellipse=True, mag=mag, prob=prob)

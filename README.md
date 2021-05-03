@@ -76,6 +76,13 @@ For example:
 
 The corrupted images are in `results` directory.
 
+## Requirements
+- NumPy >= 1.17.0
+- OpenCV
+- Pillow
+- scikit-image
+- torchvision
+
 ## Reference
   - Image corruptions (eg blur, noise, camera effects, fog, frost, etc) are based on the work of [Hendrycks et al.](https://github.com/hendrycks/robustness)
 

@@ -18,13 +18,14 @@ import numpy as np
 from PIL import Image, ImageOps
 
 class Shrink:
-    def __init__(self):
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
         self.tps = cv2.createThinPlateSplineShapeTransformer()
-        self.translateXAbs = TranslateXAbs()
-        self.translateYAbs = TranslateYAbs()
+        self.translateXAbs = TranslateXAbs(self.rng)
+        self.translateYAbs = TranslateYAbs(self.rng)
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -52,8 +53,8 @@ class Shrink:
         # left-most
         srcpt.append([P, P])
         srcpt.append([P, H-P])
-        x = np.random.uniform(frac-.1, frac)*W_33 
-        y = np.random.uniform(frac-.1, frac)*H_50
+        x = self.rng.uniform(frac-.1, frac)*W_33
+        y = self.rng.uniform(frac-.1, frac)*H_50
         dstpt.append([P+x, P+y])
         dstpt.append([P+x, H-P-y])
         
@@ -83,7 +84,7 @@ class Shrink:
         img = self.tps.warpImage(img)
         img = Image.fromarray(img)
 
-        if np.random.uniform(0, 1) < 0.5:
+        if self.rng.uniform(0, 1) < 0.5:
             img = self.translateXAbs(img, val=x)
         else:
             img = self.translateYAbs(img, val=y)
@@ -92,11 +93,12 @@ class Shrink:
 
 
 class Rotate:
-    def __init__(self, square_side=224):
+    def __init__(self, square_side=224, rng=None):
         self.side = square_side
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, iscurve=False, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -111,8 +113,8 @@ class Rotate:
             index = mag
         rotate_angle = b[index]
 
-        angle = np.random.uniform(rotate_angle-20, rotate_angle)
-        if np.random.uniform(0, 1) < 0.5:
+        angle = self.rng.uniform(rotate_angle-20, rotate_angle)
+        if self.rng.uniform(0, 1) < 0.5:
             angle = -angle
 
         expand = False if iscurve else True
@@ -122,11 +124,11 @@ class Rotate:
         return img
 
 class Perspective:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -143,13 +145,13 @@ class Perspective:
         low = b[index]
 
         high = 1 - low
-        if np.random.uniform(0, 1) > 0.5:
-            toprightY = np.random.uniform(low, low+.1)*H
-            bottomrightY = np.random.uniform(high-.1, high)*H
+        if self.rng.uniform(0, 1) > 0.5:
+            toprightY = self.rng.uniform(low, low+.1)*H
+            bottomrightY = self.rng.uniform(high-.1, high)*H
             dest = np.float32([[0, 0], [W, toprightY], [0, H], [W, bottomrightY]])
         else:
-            topleftY = np.random.uniform(low, low+.1)*H
-            bottomleftY = np.random.uniform(high-.1, high)*H
+            topleftY = self.rng.uniform(low, low+.1)*H
+            bottomleftY = self.rng.uniform(high-.1, high)*H
             dest = np.float32([[0, topleftY], [W, 0], [0, bottomleftY], [W, H]])
         M = cv2.getPerspectiveTransform(src, dest)
         img = np.array(img)
@@ -160,11 +162,11 @@ class Perspective:
 
 
 class TranslateX:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         b = [.03, .06, .09]
@@ -173,20 +175,20 @@ class TranslateX:
         else:
             index = mag
         v = b[index]
-        v = np.random.uniform(v-0.03, v)
+        v = self.rng.uniform(v-0.03, v)
 
         v = v * img.size[0]
-        if np.random.uniform(0,1) > 0.5:
+        if self.rng.uniform(0,1) > 0.5:
             v = -v
         return img.transform(img.size, Image.AFFINE, (1, 0, v, 0, 1, 0))
 
 
 class TranslateY:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         b = [.07, .14, .21]
@@ -195,39 +197,39 @@ class TranslateY:
         else:
             index = mag
         v = b[index]
-        v = np.random.uniform(v-0.07, v)
+        v = self.rng.uniform(v-0.07, v)
 
         v = v * img.size[1]
-        if np.random.uniform(0,1) > 0.5:
+        if self.rng.uniform(0,1) > 0.5:
             v = -v
         return img.transform(img.size, Image.AFFINE, (1, 0, 0, 0, 1, v))
 
 
 class TranslateXAbs:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, val=0, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
-        v = np.random.uniform(0, val)
+        v = self.rng.uniform(0, val)
 
-        if np.random.uniform(0,1) > 0.5:
+        if self.rng.uniform(0,1) > 0.5:
             v = -v
         return img.transform(img.size, Image.AFFINE, (1, 0, v, 0, 1, 0))
 
 
 class TranslateYAbs:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, val=0, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
-        v = np.random.uniform(0, val)
+        v = self.rng.uniform(0, val)
 
-        if np.random.uniform(0,1) > 0.5:
+        if self.rng.uniform(0,1) > 0.5:
             v = -v
         return img.transform(img.size, Image.AFFINE, (1, 0, 0, 0, 1, v))

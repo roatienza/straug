@@ -21,16 +21,16 @@ import torchvision.transforms as transforms
 from PIL import Image, ImageOps
 from skimage.filters import gaussian
 from io import BytesIO
-from ops import MotionImage, clipped_zoom, disk, plasma_fractal
+from ops import MotionImage, clipped_zoom, disk
 '''
     PIL resize (W,H)
 '''
 class GaussianBlur:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -38,7 +38,7 @@ class GaussianBlur:
         kernel = (31, 31)
         sigmas = [.5, 1, 2]
         if mag<0 or mag>=len(sigmas):
-            index = np.random.randint(0, len(sigmas))
+            index = self.rng.integers(0, len(sigmas))
         else:
             index = mag
 
@@ -47,11 +47,11 @@ class GaussianBlur:
 
 
 class DefocusBlur:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         n_channels = len(img.getbands())
@@ -59,7 +59,7 @@ class DefocusBlur:
         #c = [(3, 0.1), (4, 0.5), (6, 0.5), (8, 0.5), (10, 0.5)]
         c = [(2, 0.1), (3, 0.1), (4, 0.1)] #, (6, 0.5)] #prev 2 levels only
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -89,11 +89,11 @@ class DefocusBlur:
 
 
 class MotionBlur:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         n_channels = len(img.getbands())
@@ -101,7 +101,7 @@ class MotionBlur:
         #c = [(10, 3), (15, 5), (15, 8), (15, 12), (20, 15)]
         c = [(10, 3), (12, 4), (14, 5)]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
@@ -110,7 +110,7 @@ class MotionBlur:
         img.save(output, format='PNG')
         img = MotionImage(blob=output.getvalue())
 
-        img.motion_blur(radius=c[0], sigma=c[1], angle=np.random.uniform(-45, 45))
+        img.motion_blur(radius=c[0], sigma=c[1], angle=self.rng.uniform(-45, 45))
         img = cv2.imdecode(np.fromstring(img.make_blob(), np.uint8), cv2.IMREAD_UNCHANGED)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
@@ -122,18 +122,18 @@ class MotionBlur:
         return img
 
 class GlassBlur:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
         #c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2), (1.5, 4, 2)][severity - 1]
         c = [(0.7, 1, 2), (0.75, 1, 2), (0.8, 1, 2)] #, (1, 2, 3)] #prev 2 levels only
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
 
@@ -145,7 +145,7 @@ class GlassBlur:
         for i in range(c[2]):
             for h in range(H - c[1], c[1], -1):
                 for w in range(W - c[1], c[1], -1):
-                    dx, dy = np.random.randint(-c[1], c[1], size=(2,))
+                    dx, dy = self.rng.integers(-c[1], c[1], size=(2,))
                     h_prime, w_prime = h + dy, w + dx
                     # swap
                     img[h, w], img[h_prime, w_prime] = img[h_prime, w_prime], img[h, w]
@@ -155,11 +155,11 @@ class GlassBlur:
 
 
 class ZoomBlur:
-    def __init__(self):
-        pass
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -167,7 +167,7 @@ class ZoomBlur:
              np.arange(1, 1.16, .01),
              np.arange(1, 1.21, .02)]
         if mag<0 or mag>=len(c):
-            index = np.random.randint(0, len(c))
+            index = self.rng.integers(0, len(c))
         else:
             index = mag
 

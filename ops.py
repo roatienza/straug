@@ -43,7 +43,7 @@ def disk(radius, alias_blur=0.1, dtype=np.float32):
     return cv2.GaussianBlur(aliased_disk, ksize=ksize, sigmaX=alias_blur)
 
 # modification of https://github.com/FLHerne/mapgen/blob/master/diamondsquare.py
-def plasma_fractal(mapsize=256, wibbledecay=3):
+def plasma_fractal(mapsize=256, wibbledecay=3, rng=None):
     """
     Generate a heightmap using diamond-square algorithm.
     Return square 2d array, side length 'mapsize', of floats in range 0-255.
@@ -54,9 +54,11 @@ def plasma_fractal(mapsize=256, wibbledecay=3):
     maparray[0, 0] = 0
     stepsize = mapsize
     wibble = 100
+    if rng is None:
+        rng = np.random.default_rng()
 
     def wibbledmean(array):
-        return array / 4 + wibble * np.random.uniform(-wibble, wibble, array.shape)
+        return array / 4 + wibble * rng.uniform(-wibble, wibble, array.shape)
 
     def fillsquares():
         """For each square of points stepsize apart,

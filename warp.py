@@ -17,11 +17,12 @@ import numpy as np
 from PIL import Image, ImageOps
 
 class Stretch:
-    def __init__(self):
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
         self.tps = cv2.createThinPlateSplineShapeTransformer()
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -49,7 +50,7 @@ class Stretch:
         srcpt.append([P, P])
         srcpt.append([P, H-P])
         srcpt.append([P, H_50])
-        x = np.random.uniform(0, frac)*W_33 #if np.random.uniform(0,1) > 0.5 else 0
+        x = self.rng.uniform(0, frac)*W_33 #if self.rng.uniform(0,1) > 0.5 else 0
         dstpt.append([P+x, P])
         dstpt.append([P+x, H-P])
         dstpt.append([P+x, H_50])
@@ -57,14 +58,14 @@ class Stretch:
         # 2nd left-most 
         srcpt.append([P+W_33, P])
         srcpt.append([P+W_33, H-P])
-        x = np.random.uniform(-frac, frac)*W_33
+        x = self.rng.uniform(-frac, frac)*W_33
         dstpt.append([P+W_33+x, P])
         dstpt.append([P+W_33+x, H-P])
         
         # 3rd left-most 
         srcpt.append([P+W_66, P])
         srcpt.append([P+W_66, H-P])
-        x = np.random.uniform(-frac, frac)*W_33
+        x = self.rng.uniform(-frac, frac)*W_33
         dstpt.append([P+W_66+x, P])
         dstpt.append([P+W_66+x, H-P])
         
@@ -72,7 +73,7 @@ class Stretch:
         srcpt.append([W-P, P])
         srcpt.append([W-P, H-P])
         srcpt.append([W-P, H_50])
-        x = np.random.uniform(-frac, 0)*W_33 #if np.random.uniform(0,1) > 0.5 else 0
+        x = self.rng.uniform(-frac, 0)*W_33 #if self.rng.uniform(0,1) > 0.5 else 0
         dstpt.append([W-P+x, P])
         dstpt.append([W-P+x, H-P])
         dstpt.append([W-P+x, H_50])
@@ -89,11 +90,12 @@ class Stretch:
 
 
 class Distort:
-    def __init__(self):
+    def __init__(self, rng=None):
+        self.rng = np.random.default_rng() if rng is None else rng
         self.tps = cv2.createThinPlateSplineShapeTransformer()
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -119,44 +121,44 @@ class Distort:
 
         # top pts
         srcpt.append([P, P])
-        x = np.random.uniform(0, frac)*W_33
-        y = np.random.uniform(0, frac)*H_50
+        x = self.rng.uniform(0, frac)*W_33
+        y = self.rng.uniform(0, frac)*H_50
         dstpt.append([P+x, P+y])
         
         srcpt.append([P+W_33, P])
-        x = np.random.uniform(-frac, frac)*W_33
-        y = np.random.uniform(0, frac)*H_50
+        x = self.rng.uniform(-frac, frac)*W_33
+        y = self.rng.uniform(0, frac)*H_50
         dstpt.append([P+W_33+x, P+y])
         
         srcpt.append([P+W_66, P])
-        x = np.random.uniform(-frac, frac)*W_33
-        y = np.random.uniform(0, frac)*H_50
+        x = self.rng.uniform(-frac, frac)*W_33
+        y = self.rng.uniform(0, frac)*H_50
         dstpt.append([P+W_66+x, P+y])
         
         srcpt.append([W-P, P])
-        x = np.random.uniform(-frac, 0)*W_33
-        y = np.random.uniform(0, frac)*H_50
+        x = self.rng.uniform(-frac, 0)*W_33
+        y = self.rng.uniform(0, frac)*H_50
         dstpt.append([W-P+x, P+y])
 
         # bottom pts
         srcpt.append([P, H-P])
-        x = np.random.uniform(0, frac)*W_33
-        y = np.random.uniform(-frac, 0)*H_50
+        x = self.rng.uniform(0, frac)*W_33
+        y = self.rng.uniform(-frac, 0)*H_50
         dstpt.append([P+x, H-P+y])
         
         srcpt.append([P+W_33, H-P])
-        x = np.random.uniform(-frac, frac)*W_33
-        y = np.random.uniform(-frac, 0)*H_50
+        x = self.rng.uniform(-frac, frac)*W_33
+        y = self.rng.uniform(-frac, 0)*H_50
         dstpt.append([P+W_33+x, H-P+y])
         
         srcpt.append([P+W_66, H-P])
-        x = np.random.uniform(-frac, frac)*W_33
-        y = np.random.uniform(-frac, 0)*H_50
+        x = self.rng.uniform(-frac, frac)*W_33
+        y = self.rng.uniform(-frac, 0)*H_50
         dstpt.append([P+W_66+x, H-P+y])
         
         srcpt.append([W-P, H-P])
-        x = np.random.uniform(-frac, 0)*W_33
-        y = np.random.uniform(-frac, 0)*H_50
+        x = self.rng.uniform(-frac, 0)*W_33
+        y = self.rng.uniform(-frac, 0)*H_50
         dstpt.append([W-P+x, H-P+y])
 
         N = len(dstpt)
@@ -171,12 +173,13 @@ class Distort:
 
 
 class Curve:
-    def __init__(self, square_side=224):
+    def __init__(self, square_side=224, rng=None):
         self.tps = cv2.createThinPlateSplineShapeTransformer()
         self.side = square_side
+        self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if np.random.uniform(0,1) > prob:
+        if self.rng.uniform(0,1) > prob:
             return img
 
         W, H = img.size
@@ -184,7 +187,7 @@ class Curve:
         if H!=self.side or W!=self.side:
             img = img.resize((self.side, self.side), Image.BICUBIC)
 
-        isflip = np.random.uniform(0,1) > 0.5
+        isflip = self.rng.uniform(0,1) > 0.5
         if isflip:
             img = ImageOps.flip(img)
             #img = TF.vflip(img)
@@ -203,11 +206,11 @@ class Curve:
             index = mag
         rmin = b[index]
 
-        r = np.random.uniform(rmin, rmin+.1)*h
+        r = self.rng.uniform(rmin, rmin+.1)*h
         x1 = (r**2 - w_50**2)**0.5
         h1 = r - x1
 
-        t = np.random.uniform(0.4, 0.5)*h
+        t = self.rng.uniform(0.4, 0.5)*h
 
         w2 = w_50*t/r
         hi = x1*t/r
