@@ -22,7 +22,7 @@ import argparse
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--image', default="images/delivery.png", help='Load image file')
-    parser.add_argument('--results', default="results", help='Load image file')
+    parser.add_argument('--results', default="results", help='Folder for augmented image files')
     parser.add_argument('--gray', action='store_true', help='Convert to grayscale 1st')
     parser.add_argument('--width', default=100, type=int, help='Default image width')
     parser.add_argument('--height', default=32, type=int, help='Default image height')
