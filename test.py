@@ -47,3 +47,5 @@ if __name__ == '__main__':
             if opt.gray:
                 out_img = PIL.ImageOps.grayscale(out_img)
             out_img.save(os.path.join(opt.results, filename))
+
+    print('Random token:', rng.integers(2 ** 16))

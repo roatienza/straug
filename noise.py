@@ -53,7 +53,14 @@ class ShotNoise:
         a = b[index]
         c = self.rng.uniform(a, a + 7)
         img = np.asarray(img) / 255.
+        # FIXME: Save rng state. We need to do this to ensure consistency
+        # because the img passed to rng.poisson() might not be identical
+        # across different machines. This would cause a difference in the
+        # random stream produced by the generator in the succeeding calls.
+        rng_state = self.rng.bit_generator.state
         img = np.clip(self.rng.poisson(img * c) / float(c), 0, 1) * 255
+        # Restore rng state
+        self.rng.bit_generator.state = rng_state
         return Image.fromarray(img.astype(np.uint8))
 
 
