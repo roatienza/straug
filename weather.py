@@ -42,7 +42,7 @@ class Fog:
         n_channels = len(img.getbands())
         isgray = n_channels == 1
 
-        img = np.array(img) / 255.
+        img = np.asarray(img) / 255.
         max_val = img.max()
         # Make sure fog image is at least twice the size of the input image
         max_size = 2 ** math.ceil(math.log2(max(w, h)) + 1)
@@ -96,7 +96,7 @@ class Frost:
         n_channels = len(img.getbands())
         isgray = n_channels == 1
 
-        img = np.array(img)
+        img = np.asarray(img)
 
         if isgray:
             img = np.expand_dims(img, axis=2)
@@ -133,7 +133,7 @@ class Snow:
         n_channels = len(img.getbands())
         isgray = n_channels == 1
 
-        img = np.array(img, dtype=np.float32) / 255.
+        img = np.asarray(img, dtype=np.float32) / 255.
         if isgray:
             img = np.expand_dims(img, axis=2)
             img = np.repeat(img, 3, axis=2)

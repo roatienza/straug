@@ -44,7 +44,7 @@ class Contrast:
         else:
             index = mag
         c = c[index]
-        img = np.array(img) / 255.
+        img = np.asarray(img) / 255.
         means = np.mean(img, axis=(0, 1), keepdims=True)
         img = np.clip((img - means) * c + means, 0, 1) * 255
 
@@ -71,7 +71,7 @@ class Brightness:
         n_channels = len(img.getbands())
         isgray = n_channels == 1
 
-        img = np.array(img) / 255.
+        img = np.asarray(img) / 255.
         if isgray:
             img = np.expand_dims(img, axis=2)
             img = np.repeat(img, 3, axis=2)

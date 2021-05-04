@@ -26,7 +26,7 @@ class Stretch:
             return img
 
         w, h = img.size
-        img = np.array(img)
+        img = np.asarray(img)
         srcpt = list()
         dstpt = list()
 
@@ -80,8 +80,8 @@ class Stretch:
 
         n = len(dstpt)
         matches = [cv2.DMatch(i, i, 0) for i in range(n)]
-        dst_shape = np.array(dstpt).reshape((-1, n, 2))
-        src_shape = np.array(srcpt).reshape((-1, n, 2))
+        dst_shape = np.asarray(dstpt).reshape((-1, n, 2))
+        src_shape = np.asarray(srcpt).reshape((-1, n, 2))
         self.tps.estimateTransformation(dst_shape, src_shape, matches)
         img = self.tps.warpImage(img)
         img = Image.fromarray(img)
@@ -99,7 +99,7 @@ class Distort:
             return img
 
         w, h = img.size
-        img = np.array(img)
+        img = np.asarray(img)
         srcpt = list()
         dstpt = list()
 
@@ -163,8 +163,8 @@ class Distort:
 
         n = len(dstpt)
         matches = [cv2.DMatch(i, i, 0) for i in range(n)]
-        dst_shape = np.array(dstpt).reshape((-1, n, 2))
-        src_shape = np.array(srcpt).reshape((-1, n, 2))
+        dst_shape = np.asarray(dstpt).reshape((-1, n, 2))
+        src_shape = np.asarray(srcpt).reshape((-1, n, 2))
         self.tps.estimateTransformation(dst_shape, src_shape, matches)
         img = self.tps.warpImage(img)
         img = Image.fromarray(img)
@@ -192,7 +192,7 @@ class Curve:
             img = ImageOps.flip(img)
             # img = TF.vflip(img)
 
-        img = np.array(img)
+        img = np.asarray(img)
         w = self.side
         h = self.side
         w_25 = 0.25 * w
@@ -235,8 +235,8 @@ class Curve:
 
         n = len(dstpt)
         matches = [cv2.DMatch(i, i, 0) for i in range(n)]
-        dst_shape = np.array(dstpt).reshape((-1, n, 2))
-        src_shape = np.array(srcpt).reshape((-1, n, 2))
+        dst_shape = np.asarray(dstpt).reshape((-1, n, 2))
+        src_shape = np.asarray(srcpt).reshape((-1, n, 2))
         self.tps.estimateTransformation(dst_shape, src_shape, matches)
         img = self.tps.warpImage(img)
         img = Image.fromarray(img)

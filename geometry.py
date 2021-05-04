@@ -30,7 +30,7 @@ class Shrink:
             return img
 
         w, h = img.size
-        img = np.array(img)
+        img = np.asarray(img)
         srcpt = list()
         dstpt = list()
 
@@ -79,8 +79,8 @@ class Shrink:
 
         n = len(dstpt)
         matches = [cv2.DMatch(i, i, 0) for i in range(n)]
-        dst_shape = np.array(dstpt).reshape((-1, n, 2))
-        src_shape = np.array(srcpt).reshape((-1, n, 2))
+        dst_shape = np.asarray(dstpt).reshape((-1, n, 2))
+        src_shape = np.asarray(srcpt).reshape((-1, n, 2))
         self.tps.estimateTransformation(dst_shape, src_shape, matches)
         img = self.tps.warpImage(img)
         img = Image.fromarray(img)
@@ -156,7 +156,7 @@ class Perspective:
             bottomleft_y = self.rng.uniform(high - .1, high) * h
             dest = np.float32([[0, topleft_y], [w, 0], [0, bottomleft_y], [w, h]])
         M = cv2.getPerspectiveTransform(src, dest)
-        img = np.array(img)
+        img = np.asarray(img)
         img = cv2.warpPerspective(img, M, (w, h))
         img = Image.fromarray(img)
 

@@ -31,7 +31,7 @@ def disk(radius, alias_blur=0.1, dtype=np.float32):
         coords = np.arange(-radius, radius + 1)
         ksize = (5, 5)
     x, y = np.meshgrid(coords, coords)
-    aliased_disk = np.array((x ** 2 + y ** 2) <= radius ** 2, dtype=dtype)
+    aliased_disk = np.asarray((x ** 2 + y ** 2) <= radius ** 2, dtype=dtype)
     aliased_disk /= np.sum(aliased_disk)
 
     # supersample disk to antialias

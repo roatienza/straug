@@ -31,7 +31,7 @@ class GaussianNoise:
             index = mag
         a = b[index]
         c = self.rng.uniform(a, a + 0.03)
-        img = np.array(img) / 255.
+        img = np.asarray(img) / 255.
         img = np.clip(img + self.rng.normal(size=img.shape, scale=c), 0, 1) * 255
         return Image.fromarray(img.astype(np.uint8))
 
@@ -52,7 +52,7 @@ class ShotNoise:
             index = mag
         a = b[index]
         c = self.rng.uniform(a, a + 7)
-        img = np.array(img) / 255.
+        img = np.asarray(img) / 255.
         img = np.clip(self.rng.poisson(img * c) / float(c), 0, 1) * 255
         return Image.fromarray(img.astype(np.uint8))
 
@@ -76,7 +76,7 @@ class ImpulseNoise:
         # sk.util.random_noise() uses legacy np.random.* functions.
         # We can't pass an rng instance so we specify the seed instead.
         s = self.rng.integers(2 ** 32)
-        img = sk.util.random_noise(np.array(img) / 255., mode='s&p', seed=s, amount=c) * 255
+        img = sk.util.random_noise(np.asarray(img) / 255., mode='s&p', seed=s, amount=c) * 255
         return Image.fromarray(img.astype(np.uint8))
 
 
@@ -96,6 +96,6 @@ class SpeckleNoise:
             index = mag
         a = b[index]
         c = self.rng.uniform(a, a + .05)
-        img = np.array(img) / 255.
+        img = np.asarray(img) / 255.
         img = np.clip(img + img * self.rng.normal(size=img.shape, scale=c), 0, 1) * 255
         return Image.fromarray(img.astype(np.uint8))
