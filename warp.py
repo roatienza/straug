@@ -27,8 +27,8 @@ class Stretch:
 
         w, h = img.size
         img = np.asarray(img)
-        srcpt = list()
-        dstpt = list()
+        srcpt = []
+        dstpt = []
 
         w_33 = 0.33 * w
         w_50 = 0.50 * w
@@ -100,8 +100,8 @@ class Distort:
 
         w, h = img.size
         img = np.asarray(img)
-        srcpt = list()
-        dstpt = list()
+        srcpt = []
+        dstpt = []
 
         w_33 = 0.33 * w
         w_50 = 0.50 * w

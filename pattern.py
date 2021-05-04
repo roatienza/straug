@@ -78,8 +78,8 @@ class Grid:
         if self.rng.uniform(0, 1) > prob:
             return img
 
-        img = VGrid()(img, copy=True, mag=mag)
-        img = HGrid()(img, copy=False, mag=mag)
+        img = VGrid(self.rng)(img, copy=True, mag=mag)
+        img = HGrid(self.rng)(img, copy=False, mag=mag)
         return img
 
 
@@ -123,5 +123,5 @@ class EllipseGrid:
         if self.rng.uniform(0, 1) > prob:
             return img
 
-        img = RectGrid()(img, isellipse=True, mag=mag, prob=prob)
+        img = RectGrid(self.rng)(img, isellipse=True, mag=mag, prob=prob)
         return img

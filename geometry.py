@@ -31,8 +31,8 @@ class Shrink:
 
         w, h = img.size
         img = np.asarray(img)
-        srcpt = list()
-        dstpt = list()
+        srcpt = []
+        dstpt = []
 
         w_33 = 0.33 * w
         w_50 = 0.50 * w
@@ -118,8 +118,7 @@ class Rotate:
         if self.rng.uniform(0, 1) < 0.5:
             angle = -angle
 
-        expand = False if iscurve else True
-        img = img.rotate(angle=angle, resample=Image.BICUBIC, expand=expand)
+        img = img.rotate(angle=angle, resample=Image.BICUBIC, expand=not iscurve)
         img = img.resize((w, h), Image.BICUBIC)
 
         return img

@@ -41,7 +41,7 @@ if __name__ == '__main__':
     ops.extend(
         [Posterize(rng), Solarize(rng), Invert(rng), Equalize(rng), AutoContrast(rng), Sharpness(rng), Color(rng)])
     for op in ops:
-        for mag in range(3):
+        for mag in range(-1, 3):
             filename = type(op).__name__ + "-" + str(mag) + ".png"
             out_img = op(img, mag=mag)
             if opt.gray:
