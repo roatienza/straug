@@ -39,6 +39,8 @@ class GaussianNoise:
 class ShotNoise:
     def __init__(self, rng=None):
         self.rng = np.random.default_rng() if rng is None else rng
+        # Create a dedicated rng for the Poisson noise
+        self.noise = np.random.Generator(self.rng.bit_generator.jumped())
 
     def __call__(self, img, mag=-1, prob=1.):
         if self.rng.uniform(0, 1) > prob:
@@ -53,14 +55,7 @@ class ShotNoise:
         a = b[index]
         c = self.rng.uniform(a, a + 7)
         img = np.asarray(img) / 255.
-        # FIXME: Save rng state. We need to do this to ensure consistency
-        # because the img passed to rng.poisson() might not be identical
-        # across different machines. This would cause a difference in the
-        # random stream produced by the generator in the succeeding calls.
-        rng_state = self.rng.bit_generator.state
-        img = np.clip(self.rng.poisson(img * c) / float(c), 0, 1) * 255
-        # Restore rng state
-        self.rng.bit_generator.state = rng_state
+        img = np.clip(self.noise.poisson(img * c) / float(c), 0, 1) * 255
         return Image.fromarray(img.astype(np.uint8))
 
 
