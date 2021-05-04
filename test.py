@@ -2,22 +2,21 @@
 Test script to generate data augmented STR images.
 
 """
-import numpy as np
-
+import argparse
 import os
-from warp import Curve, Distort, Stretch
-from geometry import Rotate, Perspective, Shrink, TranslateX, TranslateY
-from pattern import VGrid, HGrid, Grid, RectGrid, EllipseGrid
-from noise import GaussianNoise, ShotNoise, ImpulseNoise, SpeckleNoise
+
+import PIL.ImageOps
+import numpy as np
+from PIL import Image
+
 from blur import GaussianBlur, DefocusBlur, MotionBlur, GlassBlur, ZoomBlur
 from camera import Contrast, Brightness, JpegCompression, Pixelate
-from weather import Fog, Snow, Frost, Rain, Shadow
+from geometry import Rotate, Perspective, Shrink, TranslateX, TranslateY
+from noise import GaussianNoise, ShotNoise, ImpulseNoise, SpeckleNoise
+from pattern import VGrid, HGrid, Grid, RectGrid, EllipseGrid
 from process import Posterize, Solarize, Invert, Equalize, AutoContrast, Sharpness, Color
-
-from PIL import Image
-import PIL.ImageOps
-import argparse
-
+from warp import Curve, Distort, Stretch
+from weather import Fog, Snow, Frost, Rain, Shadow
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -31,14 +30,16 @@ if __name__ == '__main__':
     os.makedirs(opt.results, exist_ok=True)
 
     img = Image.open(opt.image)
-    img = img.resize( (opt.width, opt.height) )
+    img = img.resize((opt.width, opt.height))
     rng = np.random.default_rng(opt.seed)
-    ops = [Curve(rng=rng), Rotate(rng=rng), Perspective(rng), Distort(rng), Stretch(rng), Shrink(rng), TranslateX(rng), TranslateY(rng), VGrid(rng), HGrid(rng), Grid(rng), RectGrid(rng), EllipseGrid(rng)]
+    ops = [Curve(rng=rng), Rotate(rng=rng), Perspective(rng), Distort(rng), Stretch(rng), Shrink(rng), TranslateX(rng),
+           TranslateY(rng), VGrid(rng), HGrid(rng), Grid(rng), RectGrid(rng), EllipseGrid(rng)]
     ops.extend([GaussianNoise(rng), ShotNoise(rng), ImpulseNoise(rng), SpeckleNoise(rng)])
     ops.extend([GaussianBlur(rng), DefocusBlur(rng), MotionBlur(rng), GlassBlur(rng), ZoomBlur(rng)])
     ops.extend([Contrast(rng), Brightness(rng), JpegCompression(rng), Pixelate(rng)])
     ops.extend([Fog(rng), Snow(rng), Frost(rng), Rain(rng), Shadow(rng)])
-    ops.extend([Posterize(rng), Solarize(rng), Invert(rng), Equalize(rng), AutoContrast(rng), Sharpness(rng), Color(rng)])
+    ops.extend(
+        [Posterize(rng), Solarize(rng), Invert(rng), Equalize(rng), AutoContrast(rng), Sharpness(rng), Color(rng)])
     for op in ops:
         for mag in range(3):
             filename = type(op).__name__ + "-" + str(mag) + ".png"

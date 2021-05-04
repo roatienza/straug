@@ -15,29 +15,31 @@ Reference: https://github.com/hendrycks/robustness
 Hacked together for STR by: Rowel Atienza
 """
 
+from io import BytesIO
 
 import numpy as np
 import skimage as sk
 from PIL import Image, ImageOps
-from io import BytesIO
-
 from skimage import color
+
 '''
     PIL resize (W,H)
     cv2 image is BGR
     PIL image is RGB
 '''
+
+
 class Contrast:
     def __init__(self, rng=None):
         self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if self.rng.uniform(0,1) > prob:
+        if self.rng.uniform(0, 1) > prob:
             return img
 
-        #c = [0.4, .3, .2, .1, .05]
+        # c = [0.4, .3, .2, .1, .05]
         c = [0.4, .3, .2]
-        if mag<0 or mag>=len(c):
+        if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
             index = mag
@@ -54,13 +56,13 @@ class Brightness:
         self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if self.rng.uniform(0,1) > prob:
+        if self.rng.uniform(0, 1) > prob:
             return img
 
-        #W, H = img.size
-        #c = [.1, .2, .3, .4, .5]
+        # W, H = img.size
+        # c = [.1, .2, .3, .4, .5]
         c = [.1, .2, .3]
-        if mag<0 or mag>=len(c):
+        if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
             index = mag
@@ -78,7 +80,7 @@ class Brightness:
         img[:, :, 2] = np.clip(img[:, :, 2] + c, 0, 1)
         img = sk.color.hsv2rgb(img)
 
-        #if isgray:
+        # if isgray:
         #    img = img[:,:,0]
         #    img = np.squeeze(img)
 
@@ -88,11 +90,11 @@ class Brightness:
             img = ImageOps.grayscale(img)
 
         return img
-        #if isgray:
-        #if isgray:
+        # if isgray:
+        # if isgray:
         #    img = color.rgb2gray(img)
 
-        #return Image.fromarray(img.astype(np.uint8))
+        # return Image.fromarray(img.astype(np.uint8))
 
 
 class JpegCompression:
@@ -100,12 +102,12 @@ class JpegCompression:
         self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if self.rng.uniform(0,1) > prob:
+        if self.rng.uniform(0, 1) > prob:
             return img
 
-        #c = [25, 18, 15, 10, 7]
+        # c = [25, 18, 15, 10, 7]
         c = [25, 18, 15]
-        if mag<0 or mag>=len(c):
+        if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
             index = mag
@@ -120,17 +122,16 @@ class Pixelate:
         self.rng = np.random.default_rng() if rng is None else rng
 
     def __call__(self, img, mag=-1, prob=1.):
-        if self.rng.uniform(0,1) > prob:
+        if self.rng.uniform(0, 1) > prob:
             return img
 
-        W, H = img.size
-        #c = [0.6, 0.5, 0.4, 0.3, 0.25]
+        w, h = img.size
+        # c = [0.6, 0.5, 0.4, 0.3, 0.25]
         c = [0.6, 0.5, 0.4]
-        if mag<0 or mag>=len(c):
+        if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
             index = mag
         c = c[index]
-        img = img.resize((int(W* c), int(H * c)), Image.BOX)
-        return img.resize((W, H), Image.BOX)
-
+        img = img.resize((int(w * c), int(h * c)), Image.BOX)
+        return img.resize((w, h), Image.BOX)
