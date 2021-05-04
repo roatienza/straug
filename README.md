@@ -64,6 +64,20 @@ it can be transformed as follows:
 ------------ | ------------- | ------------- 
 ![](/examples/process/AutoContrast-2.png) | ![](/examples/process/Sharpness-2.png) | ![](/examples/process/Color-2.png) 
 
+
+## Install requirements
+
+```
+pip3 install -r requirements.txt
+```
+
+### Requirements
+- NumPy >= 1.17.0
+- OpenCV
+- Pillow
+- scikit-image
+- torchvision
+
 ## How to use
 
 Test it on a sample image:
@@ -76,12 +90,6 @@ For example:
 
 The corrupted images are in `results` directory.
 
-## Requirements
-- NumPy >= 1.17.0
-- OpenCV
-- Pillow
-- scikit-image
-- torchvision
 
 ## Reference
   - Image corruptions (eg blur, noise, camera effects, fog, frost, etc) are based on the work of [Hendrycks et al.](https://github.com/hendrycks/robustness)
