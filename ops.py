@@ -8,13 +8,6 @@ Hacked together for STR by: Rowel Atienza
 import cv2
 import numpy as np
 from scipy.ndimage import zoom as scizoom
-from wand.api import library as wandlibrary
-from wand.image import Image as WandImage
-
-
-class MotionImage(WandImage):
-    def motion_blur(self, radius=0.0, sigma=0.0, angle=0.0):
-        wandlibrary.MagickMotionBlurImage(self.wand, radius, sigma, angle)
 
 
 def clipped_zoom(img, zoom_factor):
@@ -69,13 +62,11 @@ def plasma_fractal(mapsize=256, wibbledecay=3, rng=None):
         cornerref = maparray[0:mapsize:stepsize, 0:mapsize:stepsize]
         squareaccum = cornerref + np.roll(cornerref, shift=-1, axis=0)
         squareaccum += np.roll(squareaccum, shift=-1, axis=1)
-        maparray[stepsize // 2:mapsize:stepsize,
-        stepsize // 2:mapsize:stepsize] = wibbledmean(squareaccum)
+        maparray[stepsize // 2:mapsize:stepsize, stepsize // 2:mapsize:stepsize] = wibbledmean(squareaccum)
 
     def filldiamonds():
         """For each diamond of points stepsize apart,
            calculate middle value as mean of points + wibble"""
-        mapsize = maparray.shape[0]
         drgrid = maparray[stepsize // 2:mapsize:stepsize, stepsize // 2:mapsize:stepsize]
         ulgrid = maparray[0:mapsize:stepsize, 0:mapsize:stepsize]
         ldrsum = drgrid + np.roll(drgrid, 1, axis=0)

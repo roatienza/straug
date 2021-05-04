@@ -5,5 +5,4 @@ opencv-python>=4.5.1
 opencv-contrib-python
 skimage>=0.17.2
 numpy>=1.19.2
-
-
+Wand>=0.6.5

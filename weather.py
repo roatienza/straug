@@ -18,8 +18,9 @@ import cv2
 import numpy as np
 from PIL import Image, ImageOps, ImageDraw
 from pkg_resources import resource_filename
+from wand.image import Image as WandImage
 
-from ops import plasma_fractal, MotionImage
+from ops import plasma_fractal
 
 
 class Fog:
@@ -145,11 +146,11 @@ class Snow:
         snow_layer = Image.fromarray((np.clip(snow_layer.squeeze(), 0, 1) * 255).astype(np.uint8), mode='L')
         output = BytesIO()
         snow_layer.save(output, format='PNG')
-        snow_layer = MotionImage(blob=output.getvalue())
+        snow_layer = WandImage(blob=output.getvalue())
 
         snow_layer.motion_blur(radius=c[4], sigma=c[5], angle=self.rng.uniform(-135, -45))
 
-        snow_layer = cv2.imdecode(np.fromstring(snow_layer.make_blob(), np.uint8),
+        snow_layer = cv2.imdecode(np.frombuffer(snow_layer.make_blob(), np.uint8),
                                   cv2.IMREAD_UNCHANGED) / 255.
 
         # snow_layer = cv2.cvtColor(snow_layer, cv2.COLOR_BGR2RGB)

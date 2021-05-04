@@ -21,8 +21,9 @@ import numpy as np
 import torchvision.transforms as transforms
 from PIL import Image, ImageOps
 from skimage.filters import gaussian
+from wand.image import Image as WandImage
 
-from ops import MotionImage, disk
+from ops import disk
 
 '''
     PIL resize (W,H)
@@ -114,10 +115,10 @@ class MotionBlur:
 
         output = BytesIO()
         img.save(output, format='PNG')
-        img = MotionImage(blob=output.getvalue())
+        img = WandImage(blob=output.getvalue())
 
         img.motion_blur(radius=c[0], sigma=c[1], angle=self.rng.uniform(-45, 45))
-        img = cv2.imdecode(np.fromstring(img.make_blob(), np.uint8), cv2.IMREAD_UNCHANGED)
+        img = cv2.imdecode(np.frombuffer(img.make_blob(), np.uint8), cv2.IMREAD_UNCHANGED)
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
         img = Image.fromarray(img.astype(np.uint8))
