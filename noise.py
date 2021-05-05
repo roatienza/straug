@@ -77,7 +77,9 @@ class ImpulseNoise:
         c = self.rng.uniform(a, a + .04)
         # sk.util.random_noise() uses legacy np.random.* functions.
         # We can't pass an rng instance so we specify the seed instead.
-        s = self.rng.integers(2 ** 32)
+        # np.random.seed() accepts 32-bit integers only,
+        # generate 4 to simulate a 128-bit state/seed.
+        s = self.rng.integers(2 ** 32, size=4)
         img = sk.util.random_noise(np.asarray(img) / 255., mode='s&p', seed=s, amount=c) * 255
         return Image.fromarray(img.astype(np.uint8))
 
