@@ -139,7 +139,7 @@ class GlassBlur:
 
         w, h = img.size
         # c = [(0.7, 1, 2), (0.9, 2, 1), (1, 2, 3), (1.1, 3, 2), (1.5, 4, 2)][severity - 1]
-        c = [(0.7, 1, 2), (0.75, 1, 2), (0.8, 1, 2)]  # , (1, 2, 3)] #prev 2 levels only
+        c = [(0.45, 1, 1), (0.6, 1, 2), (0.75, 1, 2)]  # , (1, 2, 3)] #prev 2 levels only
         if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:

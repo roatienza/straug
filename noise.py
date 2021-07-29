@@ -24,7 +24,7 @@ class GaussianNoise:
             return img
 
         # c = self.rng.uniform(.08, .38)
-        b = [.08, 0.1, 0.12]
+        b = [.06, 0.09, 0.12]
         if mag < 0 or mag >= len(b):
             index = 0
         else:
