@@ -128,7 +128,7 @@ class Color:
         if self.rng.uniform(0, 1) > prob:
             return img
 
-        c = [.1, .7, 1.3]
+        c = [.1, .5, .9]
         if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
