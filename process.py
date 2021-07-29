@@ -29,7 +29,7 @@ class Posterize:
         if self.rng.uniform(0, 1) > prob:
             return img
 
-        c = [1, 3, 6]
+        c = [6, 3, 1]
         if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
@@ -49,7 +49,7 @@ class Solarize:
         if self.rng.uniform(0, 1) > prob:
             return img
 
-        c = [64, 128, 192]
+        c = [192, 128, 64]
         if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
