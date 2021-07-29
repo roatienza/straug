@@ -68,7 +68,7 @@ class Frost:
             return img
 
         w, h = img.size
-        c = [(1, 0.4), (0.8, 0.6), (0.7, 0.7)]
+        c = [(0.78, 0.22), (0.64, 0.36), (0.5, 0.5)]
         if mag < 0 or mag >= len(c):
             index = self.rng.integers(0, len(c))
         else:
@@ -85,13 +85,20 @@ class Frost:
         filename = filename[index]
         # Some images have transparency. Remove alpha channel.
         frost = Image.open(filename).convert('RGB')
-        # Make sure that the frost image is at least as big as the input image
-        target_size = max(w, frost.size[0]) + 1, max(h, frost.size[1]) + 1
-        frost = np.asarray(frost.resize(target_size))
+
+        # Resize the frost image to match the input image's dimensions
+        f_w, f_h = frost.size
+        if w / h > f_w / f_h:
+            f_h = round(f_h * w / f_w)
+            f_w = w
+        else:
+            f_w = round(f_w * h / f_h)
+            f_h = h
+        frost = np.asarray(frost.resize((f_w, f_h)))
 
         # randomly crop
-        x_start, y_start = self.rng.integers(0, frost.shape[0] - h), self.rng.integers(0, frost.shape[1] - w)
-        frost = frost[x_start:x_start + h, y_start:y_start + w]
+        y_start, x_start = self.rng.integers(0, f_h - h + 1), self.rng.integers(0, f_w - w + 1)
+        frost = frost[y_start:y_start + h, x_start:x_start + w]
 
         n_channels = len(img.getbands())
         isgray = n_channels == 1
@@ -102,9 +109,7 @@ class Frost:
             img = np.expand_dims(img, axis=2)
             img = np.repeat(img, 3, axis=2)
 
-        img = img * c[0]
-        frost = frost * c[1]
-        img = np.clip(c[0] * img + c[1] * frost, 0, 255)
+        img = np.clip(np.round(c[0] * img + c[1] * frost), 0, 255)
         img = Image.fromarray(img.astype(np.uint8))
         if isgray:
             img = ImageOps.grayscale(img)
