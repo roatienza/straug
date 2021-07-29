@@ -107,7 +107,7 @@ class Rotate:
         if h != self.side or w != self.side:
             img = img.resize((self.side, self.side), Image.BICUBIC)
 
-        b = [20., 40, 60]
+        b = [15, 30, 45]
         if mag < 0 or mag >= len(b):
             index = 1
         else:
@@ -138,7 +138,7 @@ class Perspective:
         src = np.float32([[0, 0], [w, 0], [0, h], [w, h]])
         # low = 0.3
 
-        b = [.1, .2, .3]
+        b = [.05, .1, .15]
         if mag < 0 or mag >= len(b):
             index = 2
         else:
