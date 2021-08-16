@@ -1,4 +1,4 @@
-# STRAug
+# Data Augmentation for Scene Text Recognition (ICCV 2021 Workshop)
 (Pronounced as "_strog_")
 
 Scene Text Recognition (STR) requires data augmentation functions that are different from object recognition. STRAug is data augmentation designed for STR. It offers 36 data augmentation functions that are sorted into 8 groups. Each function supports 3 levels or magnitudes of severity or intensity.
