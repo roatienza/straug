@@ -65,18 +65,11 @@ it can be transformed as follows:
 ![](/examples/process/AutoContrast-2.png) | ![](/examples/process/Sharpness-2.png) | ![](/examples/process/Color-2.png) 
 
 
-## Install requirements
+## Pip install
 
 ```
-pip3 install -r requirements.txt
+pip3 install straug
 ```
-
-### Requirements
-- NumPy >= 1.17.0
-- OpenCV
-- Pillow
-- scikit-image
-- torchvision
 
 ## How to use
 
