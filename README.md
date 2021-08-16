@@ -102,7 +102,7 @@ If you find this work useful, please cite:
 @inproceedings{atienza2021data,
   title={Data Augmentation for Scene Text Recognition},
   author={Atienza, Rowel},
-  booktitle = {ICCV Workshops (ICCVW)},
+  booktitle = {IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)},
   year={2021},
   pubstate={published},
   tppubtype={inproceedings}
