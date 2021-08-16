@@ -23,7 +23,7 @@ from PIL import Image, ImageOps
 from skimage.filters import gaussian
 from wand.image import Image as WandImage
 
-from ops import disk
+from .ops import disk
 
 '''
     PIL resize (W,H)

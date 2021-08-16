@@ -9,14 +9,14 @@ import PIL.ImageOps
 import numpy as np
 from PIL import Image
 
-from blur import GaussianBlur, DefocusBlur, MotionBlur, GlassBlur, ZoomBlur
-from camera import Contrast, Brightness, JpegCompression, Pixelate
-from geometry import Rotate, Perspective, Shrink, TranslateX, TranslateY
-from noise import GaussianNoise, ShotNoise, ImpulseNoise, SpeckleNoise
-from pattern import VGrid, HGrid, Grid, RectGrid, EllipseGrid
-from process import Posterize, Solarize, Invert, Equalize, AutoContrast, Sharpness, Color
-from warp import Curve, Distort, Stretch
-from weather import Fog, Snow, Frost, Rain, Shadow
+from straug.blur import GaussianBlur, DefocusBlur, MotionBlur, GlassBlur, ZoomBlur
+from straug.camera import Contrast, Brightness, JpegCompression, Pixelate
+from straug.geometry import Rotate, Perspective, Shrink, TranslateX, TranslateY
+from straug.noise import GaussianNoise, ShotNoise, ImpulseNoise, SpeckleNoise
+from straug.pattern import VGrid, HGrid, Grid, RectGrid, EllipseGrid
+from straug.process import Posterize, Solarize, Invert, Equalize, AutoContrast, Sharpness, Color
+from straug.warp import Curve, Distort, Stretch
+from straug.weather import Fog, Snow, Frost, Rain, Shadow
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()

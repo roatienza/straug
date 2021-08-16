@@ -20,7 +20,7 @@ from PIL import Image, ImageOps, ImageDraw
 from pkg_resources import resource_filename
 from wand.image import Image as WandImage
 
-from ops import plasma_fractal
+from .ops import plasma_fractal
 
 
 class Fog:
