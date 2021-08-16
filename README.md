@@ -99,13 +99,13 @@ The corrupted images are in `results` directory.
 If you find this work useful, please cite:
 
 ```
-@misc{atienza2021straug,
+@inproceedings{atienza2021data,
   title={Data Augmentation for Scene Text Recognition},
   author={Atienza, Rowel},
+  booktitle = {IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)},
   year={2021},
-  publisher = {GitHub},
-  journal = {GitHub repository},
-  howpublished = {\url{https://github.com/roatienza/straug}},
+  pubstate={published},
+  tppubtype={inproceedings}
 }
 ```
 
