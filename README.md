@@ -1,6 +1,12 @@
 # Data Augmentation for Scene Text Recognition (ICCV 2021 Workshop)
 (Pronounced as "_strog_")
 
+### Paper
+
+[Arxiv](https://arxiv.org/abs/2108.06949)
+
+## Why it matters?
+
 Scene Text Recognition (STR) requires data augmentation functions that are different from object recognition. STRAug is data augmentation designed for STR. It offers 36 data augmentation functions that are sorted into 8 groups. Each function supports 3 levels or magnitudes of severity or intensity.
 
 Given a source image:
@@ -73,7 +79,17 @@ pip3 install straug
 
 ## How to use
 
-Test it on a sample image:
+Command line (e.g. input image is `nokia.png`):
+
+```
+>>> from straug.warp import Curve
+>>> from PIL import Image
+>>> img = Image.open("nokia.png")
+>>> img = Curve()(img, mag=3)
+>>> img.save("curved_nokia.png")
+```
+
+Python script (see `test.py`):
 
 `python3 test.py --image=<target image>`
 
