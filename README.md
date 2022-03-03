@@ -1,4 +1,4 @@
-# Data Augmentation for Scene Text Recognition (ICCV 2021 Workshop)
+# Data Augmentation for Scene Text Recognition
 (Pronounced as "_strog_")
 
 ### Paper
