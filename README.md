@@ -3,8 +3,9 @@
 
 ### Paper
 
-[ICCV 2021 Workshop](https://openaccess.thecvf.com/content/ICCV2021W/ILDAV/papers/Atienza_Data_Augmentation_for_Scene_Text_Recognition_ICCVW_2021_paper.pdf)
-[Arxiv](https://arxiv.org/abs/2108.06949)
+
+* [ICCV 2021 Workshop](https://openaccess.thecvf.com/content/ICCV2021W/ILDAV/papers/Atienza_Data_Augmentation_for_Scene_Text_Recognition_ICCVW_2021_paper.pdf)
+* [Arxiv](https://arxiv.org/abs/2108.06949)
 
 ## Why it matters?
 
