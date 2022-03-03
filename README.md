@@ -3,6 +3,7 @@
 
 ### Paper
 
+[ICCV 2021 Workshop](https://openaccess.thecvf.com/content/ICCV2021W/ILDAV/papers/Atienza_Data_Augmentation_for_Scene_Text_Recognition_ICCVW_2021_paper.pdf)
 [Arxiv](https://arxiv.org/abs/2108.06949)
 
 ## Why it matters?
@@ -111,10 +112,9 @@ If you find this work useful, please cite:
 @inproceedings{atienza2021data,
   title={Data Augmentation for Scene Text Recognition},
   author={Atienza, Rowel},
-  booktitle = {IEEE/CVF International Conference on Computer Vision Workshops (ICCVW)},
-  year={2021},
-  pubstate={published},
-  tppubtype={inproceedings}
+  booktitle={Proceedings of the IEEE/CVF International Conference on Computer Vision},
+  pages={1561--1570},
+  year={2021}
 }
 ```
 
