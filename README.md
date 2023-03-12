@@ -101,6 +101,8 @@ For example:
 
 The corrupted images are in `results` directory.
 
+*If you want to randomly apply only the desired augmentation types among multiple augmentations, see `test_random_aug.py`*
+
 
 ## Reference
   - Image corruptions (eg blur, noise, camera effects, fog, frost, etc) are based on the work of [Hendrycks et al.](https://github.com/hendrycks/robustness)
