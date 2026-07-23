@@ -1,4 +1,7 @@
 # Data Augmentation for Scene Text Recognition
+
+[![Papers with Code: #3 on ICDAR 2003](https://paperswithcode.co/api/v1/papers/2108.06949/leaderboard-badge.svg?eval=14789&live=1)](https://paperswithcode.co/benchmark/icdar-2003?task=scene-text-recognition&eval=14789)
+
 (Pronounced as "_strog_")
 
 ### Paper
